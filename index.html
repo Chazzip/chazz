@@ -2,162 +2,1152 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Chazz知识铺 | Foreign Patent x AI Toolkit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chazz Knowledge Atelier | Foreign Patent x AI Systems</title>
   <style>
+    :root {
+      --bg: #0e1418;
+      --bg-soft: #111b21;
+      --panel: rgba(248, 242, 232, 0.08);
+      --panel-strong: rgba(255, 248, 238, 0.12);
+      --line: rgba(255, 255, 255, 0.1);
+      --text: #f5ecdf;
+      --muted: rgba(245, 236, 223, 0.7);
+      --accent: #d6b485;
+      --accent-soft: rgba(214, 180, 133, 0.14);
+      --teal: #7ec7bb;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --max-width: 1180px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
     * {
-      margin: 0; padding: 0; box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      font-family: "Segoe UI", sans-serif;
-      background: #fff;
-      color: #333;
+      min-height: 100vh;
+      font-family: "Avenir Next", "PingFang SC", "Helvetica Neue", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(126, 199, 187, 0.16), transparent 28%),
+        radial-gradient(circle at 80% 12%, rgba(214, 180, 133, 0.18), transparent 24%),
+        linear-gradient(180deg, #0b1216 0%, #0e1418 42%, #121c22 100%);
+      overflow-x: hidden;
     }
 
-    header {
-      height: 100vh;
-      background: url('https://littlefatfishloveeatinglittledragonbabe.github.io/chazz/bg.jpg') no-repeat center center/cover;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-
-    header::before {
+    body::before,
+    body::after {
       content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      backdrop-filter: blur(4px);
+      position: fixed;
+      inset: auto;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      width: 360px;
+      height: 360px;
+      top: -120px;
+      left: -100px;
+      background: rgba(126, 199, 187, 0.12);
+    }
+
+    body::after {
+      width: 460px;
+      height: 460px;
+      right: -180px;
+      bottom: 10%;
+      background: rgba(214, 180, 133, 0.12);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page-shell {
+      position: relative;
       z-index: 1;
     }
 
-    .hero-text {
-      position: relative;
-      z-index: 2;
-      color: #fff;
-      text-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    .topbar {
+      position: fixed;
+      top: 22px;
+      left: 50%;
+      width: min(calc(100% - 28px), var(--max-width));
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.95rem 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      background: rgba(11, 18, 22, 0.36);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.18);
+      transition: transform 0.6s var(--ease), background 0.4s ease, border-color 0.4s ease;
+      z-index: 20;
     }
 
-    .hero-text h1 {
-      font-size: 3rem;
-      font-weight: bold;
+    .topbar.is-scrolled {
+      background: rgba(11, 18, 22, 0.78);
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateX(-50%) translateY(-4px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.92rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(214, 180, 133, 0.28), rgba(126, 199, 187, 0.18));
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      font-family: "Iowan Old Style", "Times New Roman", serif;
+      font-size: 1.05rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .nav-links a {
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.35s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+    }
+
+    .nav-cta {
+      padding: 0.75rem 1.15rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: linear-gradient(135deg, rgba(214, 180, 133, 0.18), rgba(255, 255, 255, 0.02));
+      font-size: 0.92rem;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      border-color: rgba(214, 180, 133, 0.4);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      padding: 8rem 1.4rem 3.6rem;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-image,
+    .hero-overlay,
+    .hero-gridline,
+    .hero-spotlight {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .hero-image {
+      background:
+        linear-gradient(180deg, rgba(11, 18, 22, 0.16), rgba(11, 18, 22, 0.7)),
+        url("https://littlefatfishloveeatinglittledragonbabe.github.io/chazz/bg.jpg") center center / cover;
+      transform: scale(1.06);
+      transition: transform 0.55s var(--ease);
+    }
+
+    .hero-overlay {
+      background:
+        linear-gradient(115deg, rgba(7, 11, 13, 0.32), rgba(7, 11, 13, 0.72) 54%, rgba(7, 11, 13, 0.94)),
+        radial-gradient(circle at 22% 30%, rgba(126, 199, 187, 0.18), transparent 28%),
+        radial-gradient(circle at 78% 16%, rgba(214, 180, 133, 0.22), transparent 22%);
+    }
+
+    .hero-gridline {
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: 110px 110px;
+      -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3), transparent 92%);
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3), transparent 92%);
+      opacity: 0.22;
+    }
+
+    .hero-spotlight {
+      width: 34rem;
+      height: 34rem;
+      inset: unset;
+      top: 18%;
+      left: 10%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 248, 238, 0.16), transparent 70%);
+      filter: blur(14px);
+      transition: transform 0.18s ease-out;
+    }
+
+    .hero-inner {
+      width: min(100%, var(--max-width));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 2rem;
+      align-items: end;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.55rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(245, 236, 223, 0.84);
+      font-size: 0.84rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--teal));
+      box-shadow: 0 0 18px rgba(214, 180, 133, 0.7);
+    }
+
+    .hero-copy h1 {
+      max-width: 12ch;
+      font-family: "Iowan Old Style", "Palatino Linotype", "Source Han Serif SC", serif;
+      font-size: clamp(3.5rem, 7vw, 6.3rem);
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-copy .lead {
+      max-width: 38rem;
+      margin-top: 1.5rem;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.5vw, 1.2rem);
+      line-height: 1.85;
+    }
+
+    .hero-actions,
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .hero-actions {
+      margin-top: 2rem;
+    }
+
+    .button {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      padding: 0.95rem 1.45rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 0.95rem;
+      transition: transform 0.35s var(--ease), border-color 0.35s ease, background 0.35s ease;
+      overflow: hidden;
+    }
+
+    .button::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+      opacity: 0.8;
+    }
+
+    .button span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, rgba(214, 180, 133, 0.34), rgba(214, 180, 133, 0.12));
+      border-color: rgba(214, 180, 133, 0.35);
+      box-shadow: 0 14px 36px rgba(214, 180, 133, 0.14);
+    }
+
+    .button-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+    }
+
+    .hero-meta {
+      margin-top: 2rem;
+      list-style: none;
+      color: rgba(245, 236, 223, 0.84);
+      font-size: 0.92rem;
+    }
+
+    .hero-meta li {
+      padding: 0.65rem 0.95rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-panel {
+      justify-self: end;
+      width: min(100%, 420px);
+      padding: 1.3rem;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px);
+      animation: floatPanel 7s ease-in-out infinite;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.35rem;
+      color: rgba(245, 236, 223, 0.8);
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .panel-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(126, 199, 187, 0.12);
+      color: #bce8e0;
+    }
+
+    .panel-status::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #91efe0;
+      box-shadow: 0 0 16px rgba(145, 239, 224, 0.7);
+    }
+
+    .panel-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       margin-bottom: 1rem;
     }
 
-    .hero-text p {
-      font-size: 1.2rem;
-      opacity: 0.9;
+    .metric {
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .knowledge-section {
-      padding: 4rem 2rem;
-      background: #f9f9f9;
-      text-align: center;
+    .metric strong {
+      display: block;
+      font-family: "Iowan Old Style", "Times New Roman", serif;
+      font-size: 2rem;
+      color: var(--text);
+      margin-bottom: 0.35rem;
     }
 
-    .knowledge-section h2 {
-      font-size: 2.2rem;
-      margin-bottom: 2rem;
-      color: #333;
+    .metric span {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
     }
 
-    .grid {
-      display: grid;
-      gap: 2rem;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      max-width: 1000px;
+    .panel-note {
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, rgba(214, 180, 133, 0.12), rgba(126, 199, 187, 0.08));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(245, 236, 223, 0.82);
+      line-height: 1.8;
+      font-size: 0.95rem;
+    }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      color: rgba(245, 236, 223, 0.68);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      animation: drift 2.6s ease-in-out infinite;
+    }
+
+    .scroll-cue::before {
+      content: "";
+      width: 54px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(245, 236, 223, 0.56), transparent);
+    }
+
+    .section {
+      padding: 6.5rem 1.4rem;
+    }
+
+    .section-inner {
+      width: min(100%, var(--max-width));
       margin: 0 auto;
     }
 
-    .card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 16px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
-      transition: all 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    .section-header {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(320px, 0.65fr);
+      gap: 2rem;
+      align-items: end;
+      margin-bottom: 2.6rem;
     }
 
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    .section-tag {
+      color: rgba(214, 180, 133, 0.9);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      margin-bottom: 0.9rem;
     }
 
-    .card h3 {
-      font-size: 1.3rem;
-      color: #2a6ecf;
+    .section-title {
+      font-family: "Iowan Old Style", "Palatino Linotype", "Source Han Serif SC", serif;
+      font-size: clamp(2.1rem, 4vw, 3.55rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .section-intro {
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.9;
+      max-width: 32rem;
+      justify-self: end;
+    }
+
+    .insight-band {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
       margin-bottom: 1rem;
     }
 
-    .card p {
-      font-size: 1rem;
-      color: #555;
-      margin-bottom: 1.5rem;
+    .insight-card,
+    .knowledge-card,
+    .step-card,
+    .cta-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
     }
 
-    .card a {
-      display: inline-block;
-      padding: 0.6rem 1.2rem;
-      background-color: #2a6ecf;
-      color: #fff;
-      border-radius: 8px;
-      text-decoration: none;
+    .insight-card {
+      padding: 1.45rem;
+    }
+
+    .insight-card::after,
+    .knowledge-card::after,
+    .step-card::after,
+    .cta-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 40%);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .insight-card strong {
+      display: block;
+      font-family: "Iowan Old Style", "Times New Roman", serif;
+      font-size: 2.2rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .insight-card p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .knowledge-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.15rem;
+    }
+
+    .knowledge-card {
+      padding: 1.6rem;
+      min-height: 340px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.45s var(--ease), border-color 0.35s ease, box-shadow 0.35s ease;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .knowledge-card:hover {
+      border-color: rgba(214, 180, 133, 0.32);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.26);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: start;
+      margin-bottom: 2.6rem;
+    }
+
+    .card-index {
+      color: rgba(245, 236, 223, 0.42);
+      font-size: 0.88rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .card-pill {
+      padding: 0.45rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      color: rgba(245, 236, 223, 0.84);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .knowledge-card h3 {
+      font-size: 1.42rem;
+      margin-bottom: 0.95rem;
+      letter-spacing: -0.02em;
+    }
+
+    .knowledge-card p {
+      color: var(--muted);
+      line-height: 1.85;
+      margin-bottom: 1.4rem;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: grid;
+      gap: 0.8rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .feature-list li {
+      display: flex;
+      gap: 0.75rem;
+      align-items: start;
+      color: rgba(245, 236, 223, 0.86);
+      line-height: 1.7;
+    }
+
+    .feature-list li::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      margin-top: 0.5rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--teal));
+      flex: none;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      color: rgba(245, 236, 223, 0.88);
       font-size: 0.95rem;
-      transition: background-color 0.3s;
+      width: fit-content;
+      transition: gap 0.3s ease, color 0.3s ease;
     }
 
-    .card a:hover {
-      background-color: #1b4a9e;
+    .card-link:hover {
+      gap: 0.85rem;
+      color: var(--text);
+    }
+
+    .approach-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 1.2rem;
+      align-items: start;
+    }
+
+    .method-card {
+      padding: 1.8rem;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.04)),
+        radial-gradient(circle at top right, rgba(214, 180, 133, 0.16), transparent 32%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow);
+    }
+
+    .method-card p {
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .method-list {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .step-card {
+      padding: 1.3rem 1.4rem;
+    }
+
+    .step-card strong {
+      display: inline-block;
+      margin-bottom: 0.75rem;
+      font-size: 1.06rem;
+    }
+
+    .step-card p {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .cta-card {
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) auto;
+      gap: 1.5rem;
+      align-items: center;
+      background:
+        linear-gradient(135deg, rgba(214, 180, 133, 0.12), rgba(126, 199, 187, 0.08)),
+        rgba(255, 255, 255, 0.04);
+    }
+
+    .cta-card h3 {
+      font-family: "Iowan Old Style", "Palatino Linotype", "Source Han Serif SC", serif;
+      font-size: clamp(1.9rem, 3.4vw, 2.8rem);
+      margin-bottom: 0.75rem;
+      line-height: 1.05;
+    }
+
+    .cta-card p {
+      color: var(--muted);
+      line-height: 1.85;
+      max-width: 34rem;
     }
 
     footer {
-      background: #2d2d2d;
-      color: #aaa;
-      text-align: center;
-      padding: 1.5rem;
+      width: min(100%, var(--max-width));
+      margin: 0 auto;
+      padding: 1.8rem 1.4rem 2.4rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+      color: rgba(245, 236, 223, 0.55);
       font-size: 0.9rem;
-      margin-top: 4rem;
+    }
+
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(28px);
+      transition:
+        opacity 0.8s var(--ease),
+        transform 0.8s var(--ease);
+      transition-delay: var(--delay, 0ms);
+    }
+
+    [data-reveal].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes floatPanel {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes drift {
+      0%,
+      100% {
+        transform: translateX(-50%) translateY(0);
+        opacity: 0.72;
+      }
+      50% {
+        transform: translateX(-50%) translateY(8px);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 1080px) {
+      .hero-inner,
+      .section-header,
+      .approach-layout,
+      .cta-card {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-panel {
+        justify-self: start;
+        width: min(100%, 520px);
+      }
+
+      .knowledge-grid,
+      .insight-band {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .section-intro {
+        justify-self: start;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        top: 12px;
+        width: calc(100% - 18px);
+        padding: 0.82rem 1rem;
+      }
+
+      .nav-links,
+      .nav-cta,
+      .scroll-cue {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 7rem;
+      }
+
+      .hero-copy h1 {
+        max-width: none;
+      }
+
+      .panel-grid,
+      .knowledge-grid,
+      .insight-band {
+        grid-template-columns: 1fr;
+      }
+
+      .section,
+      footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .knowledge-card,
+      .insight-card,
+      .step-card,
+      .cta-card,
+      .method-card,
+      .hero-panel {
+        border-radius: 24px;
+      }
+
+      .hero-meta li,
+      .button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      [data-reveal] {
+        opacity: 1;
+        transform: none;
+      }
     }
   </style>
 </head>
 <body>
-
-  <header>
-    <div class="hero-text">
-      <h1>Master everything with Chazz</h1>
-      <p>简约 × 高效 × 变现</p>
-    </div>
-  </header>
-
-  <section class="knowledge-section">
-    <h2>📚 Chazz知识谱</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>🧭 涉外专利入门</h3>
-        <p>专为新手设计，讲透 PCT、巴黎公约、五局差异、申请节奏等核心概念。</p>
-        <a href="#">查看详情</a>
+  <div class="page-shell">
+    <nav class="topbar" aria-label="主导航">
+      <a class="brand" href="#top">
+        <span class="brand-mark">C</span>
+        <span>Chazz Knowledge Atelier</span>
+      </a>
+      <div class="nav-links">
+        <a href="#knowledge">知识矩阵</a>
+        <a href="#approach">方法论</a>
+        <a href="#contact">合作入口</a>
       </div>
-      <div class="card">
-        <h3>🔍 涉外专利实务研讨</h3>
-        <p>结合实际案件与答复写作，深入分析 EESR、US OA、EP答复、翻译技巧等。</p>
-        <a href="#">查看详情</a>
-      </div>
-      <div class="card">
-        <h3>📖 欧美专利实务书单</h3>
-        <p>精选经典书目+个人阅读笔记：《Patent It Yourself》《EP Practice Essentials》等。</p>
-        <a href="#">查看详情</a>
-      </div>
-    </div>
-  </section>
+      <a class="nav-cta" href="#contact">进入体系</a>
+    </nav>
 
-  <footer>
-    © 2025 Chazz. All rights reserved.
-  </footer>
+    <header class="hero" id="top">
+      <div class="hero-image" aria-hidden="true"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="hero-gridline" aria-hidden="true"></div>
+      <div class="hero-spotlight" aria-hidden="true"></div>
 
+      <div class="hero-inner">
+        <div class="hero-copy" data-reveal style="--delay: 80ms;">
+          <p class="eyebrow">Foreign Patent x AI Systems</p>
+          <h1>把涉外专利知识，做成可复用的生产力资产。</h1>
+          <p class="lead">
+            这不是传统资料堆砌，而是围绕学习效率、实务判断与个人变现能力搭建的一套现代知识界面。
+            用更清晰的路径、更高级的表达，把复杂专业内容沉淀成长期可放大的个人优势。
+          </p>
+
+          <div class="hero-actions">
+            <a class="button button-primary" href="#knowledge"><span>浏览知识矩阵</span></a>
+            <a class="button button-secondary" href="#approach"><span>查看方法论框架</span></a>
+          </div>
+
+          <ul class="hero-meta">
+            <li>涉外专利入门到答复实务</li>
+            <li>欧美体系差异与策略判断</li>
+            <li>AI 辅助工作流与知识变现</li>
+          </ul>
+        </div>
+
+        <aside class="hero-panel tilt-card" data-reveal style="--delay: 180ms;">
+          <div class="panel-header">
+            <span>Knowledge Signal</span>
+            <span class="panel-status">Refined</span>
+          </div>
+
+          <div class="panel-grid">
+            <div class="metric">
+              <strong>03</strong>
+              <span>知识核心模块，覆盖入门、实务与阅读体系。</span>
+            </div>
+            <div class="metric">
+              <strong>06+</strong>
+              <span>关键场景节点，聚焦 EESR、US OA、EP 答复与翻译逻辑。</span>
+            </div>
+            <div class="metric">
+              <strong>AI</strong>
+              <span>把模板、判断与信息处理连接成连续工作流。</span>
+            </div>
+            <div class="metric">
+              <strong>ROI</strong>
+              <span>学习不是收藏信息，而是建立持续复利的输出能力。</span>
+            </div>
+          </div>
+
+          <div class="panel-note">
+            你的网站需要传递的不是“我有内容”，而是“我已经把内容整理成一个值得信任的体系”。这次改版会把这种气质直接做出来。
+          </div>
+        </aside>
+      </div>
+
+      <div class="scroll-cue">Scroll to Enter</div>
+    </header>
+
+    <main>
+      <section class="section" id="knowledge">
+        <div class="section-inner">
+          <div class="section-header">
+            <div data-reveal>
+              <p class="section-tag">Knowledge Matrix</p>
+              <h2 class="section-title">从理解概念，到构建可执行的涉外专利工作方法。</h2>
+            </div>
+            <p class="section-intro" data-reveal style="--delay: 120ms;">
+              目前页面最大的问题，是内容虽然有方向，但呈现层级还没有把“专业度”和“稀缺感”拉开。
+              所以我把结构改成更像精品工作室而不是普通课程页，让用户先感受到方法与审美，再进入内容。
+            </p>
+          </div>
+
+          <div class="insight-band">
+            <div class="insight-card" data-reveal>
+              <strong>Clarity</strong>
+              <p>用更清楚的路径拆解 PCT、巴黎公约、五局体系与申请节奏，降低学习成本。</p>
+            </div>
+            <div class="insight-card" data-reveal style="--delay: 100ms;">
+              <strong>Practice</strong>
+              <p>把 OA 答复、翻译判断、审查意见理解变成可迁移的工作能力，而不是碎片知识。</p>
+            </div>
+            <div class="insight-card" data-reveal style="--delay: 180ms;">
+              <strong>Leverage</strong>
+              <p>加入 AI 与模板化思维，让学习结果最终落到输出效率和变现能力上。</p>
+            </div>
+          </div>
+
+          <div class="knowledge-grid">
+            <article class="knowledge-card tilt-card" data-reveal>
+              <div>
+                <div class="card-top">
+                  <span class="card-index">Module 01</span>
+                  <span class="card-pill">Foundation</span>
+                </div>
+                <h3>涉外专利入门</h3>
+                <p>为新手建立完整坐标系，不只是知道名词，而是知道每个制度节点为什么重要、彼此如何联动。</p>
+                <ul class="feature-list">
+                  <li>PCT 流程、巴黎公约优先权与国家阶段切入点</li>
+                  <li>五局差异、申请节奏与不同市场的判断框架</li>
+                  <li>从“会背概念”升级到“会做路径选择”</li>
+                </ul>
+              </div>
+              <a class="card-link" href="#contact">进入这一模块 →</a>
+            </article>
+
+            <article class="knowledge-card tilt-card" data-reveal style="--delay: 100ms;">
+              <div>
+                <div class="card-top">
+                  <span class="card-index">Module 02</span>
+                  <span class="card-pill">Execution</span>
+                </div>
+                <h3>涉外专利实务研讨</h3>
+                <p>把最容易拉开专业差距的环节单独拿出来，围绕真实文件与答复逻辑搭建更成熟的工作手感。</p>
+                <ul class="feature-list">
+                  <li>EESR、US OA、EP 答复结构与常见策略偏差</li>
+                  <li>翻译与语义取舍中的风险识别和表达控制</li>
+                  <li>从案件阅读、答复构思到成稿逻辑的连续训练</li>
+                </ul>
+              </div>
+              <a class="card-link" href="#contact">查看实践框架 →</a>
+            </article>
+
+            <article class="knowledge-card tilt-card" data-reveal style="--delay: 180ms;">
+              <div>
+                <div class="card-top">
+                  <span class="card-index">Module 03</span>
+                  <span class="card-pill">Library</span>
+                </div>
+                <h3>欧美专利实务书单</h3>
+                <p>不是简单列书，而是精选真正能构建认知深度的文本，并配合阅读顺序与个人笔记沉淀。</p>
+                <ul class="feature-list">
+                  <li>经典书目筛选与阅读路径设计</li>
+                  <li>重点章节提炼、概念对照与实务映射</li>
+                  <li>把阅读结果转成自己的判断体系与表达素材</li>
+                </ul>
+              </div>
+              <a class="card-link" href="#contact">打开书单体系 →</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="approach">
+        <div class="section-inner">
+          <div class="section-header">
+            <div data-reveal>
+              <p class="section-tag">Approach</p>
+              <h2 class="section-title">高级感不是堆特效，而是视觉、信息与交互同频。</h2>
+            </div>
+            <p class="section-intro" data-reveal style="--delay: 120ms;">
+              所以这次不是只把颜色改深、按钮改圆，而是同时处理了信息密度、呼吸感、动效节奏和用户进入页面后的情绪路径。
+            </p>
+          </div>
+
+          <div class="approach-layout">
+            <div class="method-card" data-reveal>
+              <p>
+                你的旧版像是“先把内容放上去”，新版则更像“先定义品牌气质，再组织内容”。
+                我把视觉语言转向低饱和奢感、工作室式编排和更克制的动态反馈，让页面在第一屏就建立信任感与稀缺感。
+              </p>
+            </div>
+
+            <div class="method-list">
+              <div class="step-card" data-reveal style="--delay: 80ms;">
+                <strong>01. 空间感</strong>
+                <p>用更大的留白、玻璃质感面板、柔和高光和层叠背景，替代普通课程站那种直给式排版。</p>
+              </div>
+              <div class="step-card" data-reveal style="--delay: 140ms;">
+                <strong>02. 交互节奏</strong>
+                <p>加入滚动显隐、卡片倾斜、导航状态切换和首屏聚光跟随，让页面在移动时有明显生命感。</p>
+              </div>
+              <div class="step-card" data-reveal style="--delay: 200ms;">
+                <strong>03. 内容语气</strong>
+                <p>文案不再像“知识列表”，而是转成“专业体系展示”，让用户感受到你提供的是方法论价值。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="section-inner">
+          <div class="cta-card" data-reveal>
+            <div>
+              <p class="section-tag">Next Move</p>
+              <h3>如果你要继续往上做，下一步应该是把每个模块拆成独立详情页。</h3>
+              <p>
+                现在首页已经具备品牌首页的气质。继续往上做，可以把每张卡片扩展成单独页面，
+                配上案例切片、样章、方法论图谱和报名或咨询入口，整站的完成度会再上一个层级。
+              </p>
+            </div>
+            <a class="button button-primary" href="#top"><span>回到首屏</span></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>© 2026 Chazz Knowledge Atelier</span>
+      <span>Foreign Patent · AI Toolkit · Refined Learning Systems</span>
+    </footer>
+  </div>
+
+  <script>
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const topbar = document.querySelector(".topbar");
+    const hero = document.querySelector(".hero");
+    const heroImage = document.querySelector(".hero-image");
+    const heroSpotlight = document.querySelector(".hero-spotlight");
+    const revealTargets = document.querySelectorAll("[data-reveal]");
+    const tiltCards = document.querySelectorAll(".tilt-card");
+
+    const setTopbarState = () => {
+      topbar.classList.toggle("is-scrolled", window.scrollY > 20);
+    };
+
+    setTopbarState();
+    window.addEventListener("scroll", setTopbarState, { passive: true });
+
+    if ("IntersectionObserver" in window) {
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) {
+              return;
+            }
+
+            entry.target.classList.add("is-visible");
+            revealObserver.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
+      );
+
+      revealTargets.forEach((target) => revealObserver.observe(target));
+    } else {
+      revealTargets.forEach((target) => target.classList.add("is-visible"));
+    }
+
+    if (!prefersReducedMotion) {
+      hero.addEventListener("pointermove", (event) => {
+        const bounds = hero.getBoundingClientRect();
+        const x = (event.clientX - bounds.left) / bounds.width;
+        const y = (event.clientY - bounds.top) / bounds.height;
+
+        heroSpotlight.style.transform = "translate(" + ((x - 0.5) * 110) + "px, " + ((y - 0.5) * 90) + "px)";
+        heroImage.style.transform = "scale(1.08) translate(" + ((x - 0.5) * -18) + "px, " + ((y - 0.5) * -12) + "px)";
+      });
+
+      hero.addEventListener("pointerleave", () => {
+        heroSpotlight.style.transform = "translate(0, 0)";
+        heroImage.style.transform = "scale(1.06)";
+      });
+
+      tiltCards.forEach((card) => {
+        card.addEventListener("pointermove", (event) => {
+          const bounds = card.getBoundingClientRect();
+          const x = (event.clientX - bounds.left) / bounds.width;
+          const y = (event.clientY - bounds.top) / bounds.height;
+          const rotateY = (x - 0.5) * 10;
+          const rotateX = (0.5 - y) * 8;
+
+          card.style.transform =
+            "perspective(1200px) rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg) translateY(-8px)";
+        });
+
+        card.addEventListener("pointerleave", () => {
+          card.style.transform = "";
+        });
+      });
+    }
+  </script>
 </body>
 </html>

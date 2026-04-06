@@ -1,132 +1,162 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshTransmissionMaterial, PerspectiveCamera } from "@react-three/drei";
+import {
+  Environment,
+  Float,
+  MeshTransmissionMaterial,
+  PerspectiveCamera,
+  RoundedBox,
+  Sparkles
+} from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
 
-function OrbitalAssembly() {
+function Sculpture() {
   const groupRef = useRef<THREE.Group>(null);
-  const haloRef = useRef<THREE.Mesh>(null);
-  const shardRef = useRef<THREE.Mesh>(null);
-  const coreRef = useRef<THREE.Mesh>(null);
+  const ringRef = useRef<THREE.Mesh>(null);
+  const pearlRef = useRef<THREE.Mesh>(null);
+  const panelRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
     const time = state.clock.elapsedTime;
-    const mouseX = state.pointer.x * 0.24;
-    const mouseY = state.pointer.y * 0.18;
+    const targetX = state.pointer.y * 0.16;
+    const targetY = state.pointer.x * 0.28;
 
     if (groupRef.current) {
-      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, mouseX, 0.06);
-      groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, -mouseY, 0.06);
-      groupRef.current.position.y = Math.sin(time * 0.7) * 0.08;
+      groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetX, 0.06);
+      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetY, 0.06);
+      groupRef.current.position.y = Math.sin(time * 0.75) * 0.08;
     }
 
-    if (haloRef.current) {
-      haloRef.current.rotation.z += 0.0024;
-      haloRef.current.rotation.x = Math.sin(time * 0.35) * 0.2;
+    if (ringRef.current) {
+      ringRef.current.rotation.z += 0.0024;
+      ringRef.current.rotation.x = 0.75 + Math.sin(time * 0.42) * 0.08;
     }
 
-    if (shardRef.current) {
-      shardRef.current.rotation.x += 0.003;
-      shardRef.current.rotation.y -= 0.0022;
+    if (pearlRef.current) {
+      pearlRef.current.rotation.y += 0.0042;
     }
 
-    if (coreRef.current) {
-      coreRef.current.rotation.y += 0.004;
-      coreRef.current.rotation.z = Math.sin(time * 0.48) * 0.22;
+    if (panelRef.current) {
+      panelRef.current.rotation.z = Math.sin(time * 0.3) * 0.08;
     }
   });
 
   return (
     <group ref={groupRef}>
-      <Float speed={1.2} rotationIntensity={0.16} floatIntensity={0.5}>
-        <mesh ref={coreRef} position={[0.15, 0.25, 0]}>
-          <icosahedronGeometry args={[1.5, 8]} />
+      <Float speed={1.15} rotationIntensity={0.18} floatIntensity={0.5}>
+        <mesh ref={ringRef} rotation={[0.75, 0.32, 0.1]} position={[0, 0.1, -0.2]}>
+          <torusGeometry args={[2.65, 0.05, 36, 240]} />
+          <meshPhysicalMaterial
+            color="#f8fafc"
+            emissive="#cfd7e7"
+            emissiveIntensity={0.42}
+            roughness={0.08}
+            metalness={0.86}
+            clearcoat={1}
+            clearcoatRoughness={0.08}
+          />
+        </mesh>
+      </Float>
+
+      <Float speed={1.05} rotationIntensity={0.12} floatIntensity={0.28}>
+        <mesh ref={panelRef} position={[0, 0.12, 0]}>
+          <RoundedBox args={[2.9, 1.76, 0.08]} radius={0.18} smoothness={8}>
+            <MeshTransmissionMaterial
+              thickness={0.52}
+              roughness={0.04}
+              transmission={1}
+              ior={1.1}
+              chromaticAberration={0.015}
+              anisotropy={0.2}
+              distortion={0.06}
+              distortionScale={0.08}
+              temporalDistortion={0.05}
+              backside
+              color="#f8fbff"
+              attenuationColor="#cfe2ff"
+              attenuationDistance={1.4}
+            />
+          </RoundedBox>
+        </mesh>
+      </Float>
+
+      <Float speed={1.22} rotationIntensity={0.2} floatIntensity={0.34}>
+        <mesh position={[-1.48, 1.08, 0.25]} rotation={[0.55, -0.5, 0.24]}>
+          <RoundedBox args={[1.42, 0.88, 0.06]} radius={0.16} smoothness={8}>
+            <MeshTransmissionMaterial
+              thickness={0.42}
+              roughness={0.05}
+              transmission={1}
+              ior={1.08}
+              chromaticAberration={0.01}
+              color="#ffffff"
+              attenuationColor="#d7ddf8"
+              attenuationDistance={1.1}
+            />
+          </RoundedBox>
+        </mesh>
+      </Float>
+
+      <Float speed={1.32} rotationIntensity={0.18} floatIntensity={0.3}>
+        <mesh position={[1.62, -0.92, 0.52]} rotation={[0.45, 0.68, -0.28]}>
+          <RoundedBox args={[1.32, 0.76, 0.06]} radius={0.16} smoothness={8}>
+            <MeshTransmissionMaterial
+              thickness={0.4}
+              roughness={0.06}
+              transmission={1}
+              ior={1.08}
+              color="#ffffff"
+              attenuationColor="#ffe0c6"
+              attenuationDistance={1.1}
+            />
+          </RoundedBox>
+        </mesh>
+      </Float>
+
+      <Float speed={1.4} rotationIntensity={0.18} floatIntensity={0.4}>
+        <mesh ref={pearlRef} position={[0.12, 0.1, 0.5]}>
+          <sphereGeometry args={[0.78, 64, 64]} />
           <MeshTransmissionMaterial
-            thickness={0.85}
-            roughness={0.04}
+            thickness={1.1}
+            roughness={0.03}
             transmission={1}
             ior={1.18}
-            chromaticAberration={0.03}
-            anisotropy={0.2}
-            distortion={0.2}
-            distortionScale={0.18}
-            temporalDistortion={0.12}
-            color="#f5e5cd"
-            attenuationColor="#b27535"
-            attenuationDistance={1.5}
+            chromaticAberration={0.02}
+            anisotropy={0.16}
+            distortion={0.08}
+            distortionScale={0.08}
+            temporalDistortion={0.04}
+            color="#fcfdff"
+            attenuationColor="#dde5ff"
+            attenuationDistance={1.2}
           />
         </mesh>
       </Float>
 
-      <Float speed={1} rotationIntensity={0.12} floatIntensity={0.3}>
-        <mesh ref={haloRef} rotation={[1.05, 0.3, 0.2]} position={[0.2, 0.25, 0]}>
-          <torusGeometry args={[2.5, 0.035, 32, 220]} />
-          <meshStandardMaterial
-            color="#f4e1c2"
-            emissive="#bf7f3b"
-            emissiveIntensity={0.62}
-            transparent
-            opacity={0.85}
-          />
-        </mesh>
-      </Float>
-
-      <Float speed={1.6} rotationIntensity={0.22} floatIntensity={0.6}>
-        <mesh ref={shardRef} position={[-1.55, -0.95, 1.15]} rotation={[0.4, 0.8, 0.25]}>
-          <octahedronGeometry args={[0.68, 0]} />
-          <meshPhysicalMaterial
-            color="#2c5a51"
-            emissive="#3e8274"
-            emissiveIntensity={0.45}
-            roughness={0.18}
-            metalness={0.65}
-            clearcoat={1}
-            clearcoatRoughness={0.12}
-          />
-        </mesh>
-      </Float>
-
-      <Float speed={1.3} rotationIntensity={0.16} floatIntensity={0.44}>
-        <mesh position={[1.85, 1.15, -0.6]} rotation={[0.5, 0.3, 0.8]}>
-          <dodecahedronGeometry args={[0.56, 0]} />
-          <meshPhysicalMaterial
-            color="#c59256"
-            emissive="#8f5e2d"
-            emissiveIntensity={0.35}
-            roughness={0.25}
-            metalness={0.45}
-            clearcoat={0.9}
-          />
-        </mesh>
-      </Float>
-
-      <mesh position={[0, -2.2, -0.8]} rotation={[-Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[4.4, 96]} />
-        <meshBasicMaterial color="#f9e8cf" transparent opacity={0.1} />
+      <mesh position={[0, -2.25, -0.6]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[2.35, 3.75, 80]} />
+        <meshBasicMaterial color="#ffffff" opacity={0.14} transparent />
       </mesh>
+
+      <Sparkles count={28} scale={[7.5, 4.8, 5]} size={2.2} speed={0.35} color="#b9c8ff" />
     </group>
   );
 }
 
 export function HeroScene() {
   return (
-    <Canvas className="hero-canvas" dpr={[1, 1.5]}>
-      <color attach="background" args={["#000000"]} />
-      <PerspectiveCamera makeDefault position={[0, 0, 7.2]} fov={34} />
-      <fog attach="fog" args={["#090806", 5.5, 12]} />
-      <ambientLight intensity={0.8} color="#f4ead8" />
-      <pointLight position={[3.8, 4.2, 4.8]} intensity={60} color="#ffd7a1" />
-      <pointLight position={[-4, -2, 3]} intensity={18} color="#5ca191" />
-      <spotLight
-        position={[0, 5.5, 6]}
-        angle={0.32}
-        penumbra={1}
-        intensity={50}
-        color="#fef0db"
-      />
-      <OrbitalAssembly />
+    <Canvas className="hero-canvas" dpr={[1, 1.8]} gl={{ alpha: true, antialias: true }}>
+      <PerspectiveCamera makeDefault position={[0, 0, 7.1]} fov={34} />
+      <fog attach="fog" args={["#edf1f5", 6.2, 11.5]} />
+      <ambientLight intensity={1.2} color="#ffffff" />
+      <pointLight position={[4.6, 3.8, 5.2]} intensity={42} color="#fff5ea" />
+      <pointLight position={[-4.4, 1.4, 4.2]} intensity={28} color="#dbe4ff" />
+      <pointLight position={[0, -2.2, 3.4]} intensity={18} color="#fffaf4" />
+      <spotLight position={[0, 5.5, 6]} angle={0.32} penumbra={1} intensity={36} color="#ffffff" />
+      <Environment preset="city" />
+      <Sculpture />
     </Canvas>
   );
 }

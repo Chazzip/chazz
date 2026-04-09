@@ -1,0 +1,411 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+  padding: 24px;
+  color: var(--oracle-text);
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 12%, rgba(214, 188, 132, 0.16), transparent 24%),
+    radial-gradient(circle at 84% 20%, rgba(141, 178, 199, 0.14), transparent 20%),
+    linear-gradient(180deg, rgba(8, 11, 15, 0.96), rgba(7, 10, 15, 1));
+  pointer-events: none;
+  z-index: 0;
+}
+
+.header,
+.hero,
+.section {
+  position: relative;
+  z-index: 1;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 18px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background: rgba(10, 14, 20, 0.72);
+  backdrop-filter: blur(18px);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brandMark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(214, 188, 132, 0.35);
+  background: radial-gradient(circle at 30% 30%, rgba(214, 188, 132, 0.32), rgba(214, 188, 132, 0.04));
+  color: var(--oracle-gold);
+  font-family: var(--font-oracle-serif), "Iowan Old Style", serif;
+}
+
+.brand strong,
+.brand span {
+  display: block;
+}
+
+.brand strong {
+  font-size: 0.92rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.brand span {
+  color: var(--oracle-muted);
+  font-size: 0.78rem;
+}
+
+.nav {
+  display: inline-flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.nav a {
+  padding: 10px 12px;
+  border-radius: 999px;
+  color: var(--oracle-muted);
+  font-size: 0.95rem;
+}
+
+.nav a:hover {
+  color: var(--oracle-text);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.headerActions,
+.actions,
+.launchActions {
+  display: inline-flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.primaryButton,
+.ghostButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-size: 0.94rem;
+  font-weight: 600;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.primaryButton:hover,
+.ghostButton:hover {
+  transform: translateY(-1px);
+}
+
+.primaryButton {
+  border: 1px solid rgba(214, 188, 132, 0.42);
+  background: linear-gradient(135deg, rgba(214, 188, 132, 0.22), rgba(214, 188, 132, 0.08));
+  color: var(--oracle-text);
+}
+
+.ghostButton {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--oracle-text);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: 40px;
+  align-items: center;
+  max-width: 1280px;
+  margin: 34px auto 0;
+  padding: 72px 0 64px;
+}
+
+.copy h1,
+.sectionIntro h2,
+.launchCard h2 {
+  margin: 0;
+  font-family: var(--font-oracle-serif), "Iowan Old Style", serif;
+  letter-spacing: -0.04em;
+}
+
+.copy h1 {
+  max-width: 12ch;
+  font-size: clamp(3.4rem, 8vw, 6.8rem);
+  line-height: 0.92;
+}
+
+.eyebrow {
+  margin: 0 0 16px;
+  color: var(--oracle-gold);
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.lead,
+.sectionLead,
+.card p,
+.launchCard p {
+  color: var(--oracle-muted);
+  line-height: 1.75;
+}
+
+.lead {
+  max-width: 40rem;
+  margin: 20px 0 28px;
+  font-size: 1.05rem;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 34px 0 0;
+}
+
+.metrics div,
+.card,
+.launchCard,
+.architectureRow {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(9, 13, 19, 0.72);
+  backdrop-filter: blur(16px);
+}
+
+.metrics div {
+  padding: 18px;
+  border-radius: 22px;
+}
+
+.metrics dt {
+  color: var(--oracle-dim);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.metrics dd {
+  margin: 10px 0 0;
+  line-height: 1.6;
+}
+
+.orbit {
+  position: relative;
+  min-height: 520px;
+  border-radius: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(circle at center, rgba(214, 188, 132, 0.12), transparent 18%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  overflow: hidden;
+}
+
+.orbit::before {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.orbitCore,
+.orbitRing,
+.orbitRingSoft {
+  position: absolute;
+  inset: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+.orbitCore {
+  display: grid;
+  place-items: center;
+  width: 120px;
+  height: 120px;
+  border: 1px solid rgba(214, 188, 132, 0.34);
+  background: radial-gradient(circle at 34% 34%, rgba(214, 188, 132, 0.28), rgba(214, 188, 132, 0.04));
+  font-family: var(--font-oracle-serif), serif;
+  font-size: 2rem;
+}
+
+.orbitRing {
+  width: 360px;
+  height: 360px;
+  border: 1px solid rgba(214, 188, 132, 0.2);
+}
+
+.orbitRingSoft {
+  width: 500px;
+  height: 500px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.orbitLabel {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(11, 15, 21, 0.78);
+  color: var(--oracle-muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 34px 0 40px;
+}
+
+.sectionIntro {
+  display: grid;
+  gap: 12px;
+  max-width: 820px;
+}
+
+.sectionIntro h2,
+.launchCard h2 {
+  font-size: clamp(2.2rem, 4vw, 3.8rem);
+  line-height: 1.02;
+}
+
+.cardRow,
+.architectureTable {
+  display: grid;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.cardRow {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.card,
+.launchCard {
+  padding: 24px;
+  border-radius: 28px;
+}
+
+.card span {
+  color: var(--oracle-gold);
+  font-size: 0.84rem;
+  letter-spacing: 0.18em;
+}
+
+.card h3 {
+  margin: 14px 0 10px;
+  font-size: 1.3rem;
+}
+
+.architectureRow {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 20px;
+  padding: 22px 24px;
+  border-radius: 24px;
+}
+
+.architectureRow strong,
+.architectureRow b {
+  display: block;
+}
+
+.architectureRow strong {
+  color: var(--oracle-dim);
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.architectureRow b {
+  font-size: 1.08rem;
+}
+
+.architectureRow p {
+  margin: 10px 0 0;
+  color: var(--oracle-muted);
+  line-height: 1.7;
+}
+
+.launchCard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: end;
+}
+
+@media (max-width: 1080px) {
+  .header,
+  .hero,
+  .launchCard {
+    grid-template-columns: 1fr;
+  }
+
+  .nav {
+    justify-content: flex-start;
+  }
+
+  .cardRow,
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding: 16px;
+  }
+
+  .header {
+    padding: 16px;
+    border-radius: 28px;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+  }
+
+  .hero {
+    padding-top: 40px;
+  }
+
+  .orbit {
+    min-height: 400px;
+  }
+
+  .orbitRing {
+    width: 260px;
+    height: 260px;
+  }
+
+  .orbitRingSoft {
+    width: 360px;
+    height: 360px;
+  }
+
+  .architectureRow {
+    grid-template-columns: 1fr;
+  }
+}

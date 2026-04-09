@@ -10,6 +10,8 @@
   "dependencies": {
     "@react-three/drei": "^10.1.1",
     "@react-three/fiber": "^9.1.2",
+    "@supabase/ssr": "^0.10.2",
+    "@supabase/supabase-js": "^2.103.0",
     "gsap": "^3.12.7",
     "next": "^15.3.0",
     "react": "^19.1.0",

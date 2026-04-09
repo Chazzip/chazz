@@ -2,8 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Chazz Atelier | Foreign Patent Knowledge System",
-  description: "涉外专利、AI 工作流与个人知识品牌的高端沉浸式视觉站点。"
+  title: "命理档案",
+  description: "注册、建档、排盘、追问。把命理咨询长期保存在同一份个人档案里。"
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body>{children}</body>
+      <body className="oracle-body">{children}</body>
     </html>
   );
 }

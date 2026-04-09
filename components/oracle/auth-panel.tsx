@@ -56,10 +56,15 @@ export function AuthPanel({ mode, enabled, error, success }: AuthPanelProps) {
               <span>登录 ID</span>
               <input
                 autoComplete="username"
+                autoCapitalize="none"
+                autoCorrect="off"
+                inputMode="text"
                 name="loginId"
-                pattern="[a-z0-9][a-z0-9_-]{2,31}"
+                pattern="[A-Za-z0-9][A-Za-z0-9_-]{2,31}"
                 placeholder="例如：nan_shan_01"
                 required
+                spellCheck={false}
+                title="ID 只能使用 3-32 位字母、数字、下划线或短横线，并且需要以字母或数字开头。"
                 type="text"
               />
             </label>

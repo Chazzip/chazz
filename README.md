@@ -16,6 +16,14 @@
 - `/archive`：用户档案页，编辑出生信息、查看档案完成度、发起新会话
 - `/archive/sessions/[sessionId]`：单个命理会话页，所有消息挂在主档案下
 
+## 命理知识层
+
+仓库内现在有可维护的 Markdown 知识包：[content/oracle-knowledge](/Users/chazz/Downloads/AI/AIGC/chazz/content/oracle-knowledge)。
+
+- `lib/oracle/knowledge.ts` 负责服务端读取、选择和裁剪知识片段。
+- `lib/oracle/ai.ts` 会在每次调用模型前，把本轮相关知识装配进 system prompt。
+- 目前是轻量规则检索；后续如果要做稳定排盘，建议再加独立的 chart engine，不要只让模型“心算”四柱。
+
 ## 数据模型
 
 SQL 在 [supabase/schema.sql](/Users/chazz/Downloads/AI/AIGC/chazz/supabase/schema.sql)。

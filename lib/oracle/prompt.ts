@@ -1,7 +1,7 @@
 import { buildProfileSummary, getMissingProfileSteps } from "@/lib/oracle/profile";
 import type { OracleProfileRecord } from "@/lib/oracle/types";
 
-export function buildOracleInstructions(profile: OracleProfileRecord) {
+export function buildOracleInstructions(profile: OracleProfileRecord, knowledgeContext: string) {
   const missingLabels = getMissingProfileSteps(profile).map((step) => step.label).join("、");
 
   return [
@@ -24,6 +24,9 @@ export function buildOracleInstructions(profile: OracleProfileRecord) {
     missingLabels ? `当前仍缺失：${missingLabels}` : "当前档案字段已基本齐备，可以进入确认排盘或综合分析阶段。",
     "当信息已经完整时，请先做一次信息确认，再进入排盘与分析。",
     "如果用户继续补充信息，请把新信息纳入上下文，不要要求他重复已经确认过的字段。",
-    "请始终使用简体中文回复。"
+    "请始终使用简体中文回复。",
+    "",
+    "【本轮可用知识层】",
+    knowledgeContext
   ].join("\n");
 }

@@ -1,5 +1,6 @@
 import { getAIConfig } from "@/lib/env";
 import { buildOracleInstructions } from "@/lib/oracle/prompt";
+import { getOracleKnowledgeContext } from "@/lib/oracle/knowledge";
 import type { OracleMessageRecord, OracleProfileRecord } from "@/lib/oracle/types";
 
 type ChatCompletionsPayload = {
@@ -26,6 +27,8 @@ export async function generateOracleReply(profile: OracleProfileRecord, messages
     throw new Error("请先配置 DASHSCOPE_API_KEY，再启用命理对话。");
   }
 
+  const knowledgeContext = await getOracleKnowledgeContext(profile, messages);
+
   const response = await fetch(`${config.baseUrl.replace(/\/$/, "")}/chat/completions`, {
     method: "POST",
     headers: {
@@ -37,7 +40,7 @@ export async function generateOracleReply(profile: OracleProfileRecord, messages
       messages: [
         {
           role: "system",
-          content: buildOracleInstructions(profile)
+          content: buildOracleInstructions(profile, knowledgeContext)
         },
         ...messages.slice(-20).map((message) => ({
           role: message.role,
